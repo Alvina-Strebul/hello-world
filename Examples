@@ -1,0 +1,55 @@
+1. См. array_fill() - Massives,Cicles.php
+/*My implementation of built-in functions
+Сделайте функцию arrayFill, которая будет заполнять массив заданными значениями. Первым параметром функция принимает значение, которым заполнять массив, а вторым - сколько элементов должно быть в массиве. Пример: arrayFill('x', 5) сделает массив ['x', 'x', 'x', 'x', 'x']. (это я:))*/
+
+function arrayFill($value, $number)
+{
+	$arr = [];
+	for ($i = 0; $i < $number; $i++) { 
+		$arr[$i] = $value; 
+	}
+	return $arr;
+}
+var_dump(arrayFill('h', 8)); echo '<br>';							
+
+//2. REVERSE: Дан массив. Не используя метода reverse переверните его эл-ты в обрат.порядке (это я:)).
+
+function reversMy($arr)
+{
+	foreach ($arr as $key => $value) {
+		$key = count($arr) - ($key+1);
+		$arr[$key]=$value;
+	}
+	return $arr;	
+}
+$arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var_dump(reversMy($arr)); echo '<br>';
+
+/*3. ucfirst() - см. index.php
+Дана строка. Сделайте заглавным первый символ каждого слова этой строки. Для этого сделайте вспомогат. функцию ucfirstMy, которая будет получать строку, делать первый символ этой строки заглавным и возвращать обратно строку с заглавной первой буквой.*/
+
+function ucfirstMy($str1)
+{
+	$smallEn = range(97, 122);
+	$bigEn = range(65, 90);
+	$first = ord($str1[0]);
+
+	foreach ($smallEn as $key => $value) {
+		if ($smallEn[$key] == $first) {
+			$str1[0] = chr ($bigEn[$key]);
+		}
+	}
+	return $str1;
+}
+
+function ucStr($str)
+{
+	$strMas = explode(' ', $str);
+	foreach ($strMas as $key => $value) {
+		$strMas[$key] = ucfirstMy($strMas[$key]);
+	}
+	$str = implode(' ', $strMas);
+	return $str;
+}
+$str = 'hi my pet';    $str1 = 'do it now';
+echo ucStr($str).'<br>';
