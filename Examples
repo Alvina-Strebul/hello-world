@@ -1,6 +1,8 @@
-1. См. array_fill() - Massives,Cicles.php
-/*My implementation of built-in functions
-Сделайте функцию arrayFill, которая будет заполнять массив заданными значениями. Первым параметром функция принимает значение, которым заполнять массив, а вторым - сколько элементов должно быть в массиве. Пример: arrayFill('x', 5) сделает массив ['x', 'x', 'x', 'x', 'x']. (это я:))*/
+/*Моя реализация встроенных php-функций*/
+
+/* Функция arrayFill() - аналог array_fill(), которая будет заполнять массив заданными значениями. 
+Первым параметром функция принимает значение, которым заполнять массив,
+а вторым - сколько элементов должно быть в массиве.*/
 
 function arrayFill($value, $number)
 {
@@ -10,9 +12,11 @@ function arrayFill($value, $number)
 	}
 	return $arr;
 }
-var_dump(arrayFill('h', 8)); echo '<br>';							
+var_dump(arrayFill('h', 8)); 
+echo '<br>';							
 
-//2. REVERSE: Дан массив. Не используя метода reverse переверните его эл-ты в обрат.порядке (это я:)).
+
+// Функция reversMy() - аналог revers(), для размещения элементов массива в обратном порядке.
 
 function reversMy($arr)
 {
@@ -23,26 +27,32 @@ function reversMy($arr)
 	return $arr;	
 }
 $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-var_dump(reversMy($arr)); echo '<br>';
+var_dump(reversMy($arr)); 
+echo '<br>';
 
-/*3. ucfirst() - см. index.php
-Дана строка. Сделайте заглавным первый символ каждого слова этой строки. Для этого сделайте вспомогат. функцию ucfirstMy, которая будет получать строку, делать первый символ этой строки заглавным и возвращать обратно строку с заглавной первой буквой.*/
 
-function ucfirstMy($str1)
+/*Реализация функции ucwordsMy() - аналог ucwords(), которая сделает заглавным первый символ каждого слова исходной строки.
+Для этого написала функцию ucfirstMy() - аналог ucfirst(), которая делает заглавным первый символ исходной строки.*/
+
+function ucfirstMy($str)
 {
+	//масиив ASCII кодов английских букв нижнего регистра
 	$smallEn = range(97, 122);
+	
+	//масиив ASCII кодов английских букв верхнего регистра
 	$bigEn = range(65, 90);
-	$first = ord($str1[0]);
+	
+	$first = ord($str[0]);
 
 	foreach ($smallEn as $key => $value) {
 		if ($smallEn[$key] == $first) {
-			$str1[0] = chr ($bigEn[$key]);
+			$str[0] = chr ($bigEn[$key]);
 		}
 	}
-	return $str1;
+	return $str;
 }
 
-function ucStr($str)
+function ucwordsMy($str)
 {
 	$strMas = explode(' ', $str);
 	foreach ($strMas as $key => $value) {
@@ -51,5 +61,78 @@ function ucStr($str)
 	$str = implode(' ', $strMas);
 	return $str;
 }
-$str = 'hi my pet';    $str1 = 'do it now';
-echo ucStr($str).'<br>';
+$str = 'do it now';
+echo ucwordsMy($str).'<br>';
+
+
+/*5. Реализация функции ucEven(), которая делает заглавным каждый чётный символ стоки.
+Для этого написала вспомогательну функцию ucSec(), которая делает заглавным второй символ стоки.*/
+
+function ucSec($str)
+{
+	$smallEn = range(97, 122);
+	$bigEn = range(65, 90);
+	$second = ord($str[1]);
+
+	foreach ($smallEn as $key => $value) {
+		if ($smallEn[$key] == $second) {
+			$str[1] = chr ($bigEn[$key]);
+		}
+	}
+	return $str;
+}
+
+function ucEven($str)
+{
+	$strMas = str_split($str, 2);
+	foreach ($strMas as $key => $value) {
+		$strMas[$key] = ucSec($strMas[$key]);
+	}
+	$str = implode('', $strMas);
+	return $str;
+}
+$str = 'rainbow';    
+echo ucEven($str).'<br>';
+
+
+/* Реализация функций trim(), ltrim(), rtrim() для удаления символов по краям строки.
+Для наглядности будем удалять символ подчёркивания.*/
+
+//ltrimMy() - аналог ltrim(), удаляет символы в начале строки
+function ltrimMy($str)     
+{
+	$strMas = str_split($str);
+	foreach ($strMas as $key => $value) {
+		unset($strMas[$key-1]);
+		if ($value !== '_') {
+			break;
+		}
+	}
+ 	$str = implode('', $strMas);
+	return $str;
+}
+$str = '_________hello_my_cat_______';
+echo ltrimMy($str).'<br>';
+
+//rtrimMy() - нанлог rtrim(), убирает символы с конца строки
+function rtrimMy($str)     
+{
+	$strMas = array_reverse(str_split($str));
+	foreach ($strMas as $key => $value) {
+		unset($strMas[$key-1]);
+		if ($value !== '_') {
+			break;
+		}
+	}
+ 	$str = implode('', array_reverse($strMas));
+	return $str;
+}
+echo rtrimMy($str).'<br>';
+
+//trimMy - аналог trim(), убирает симолы по краям строки
+function trimMy($str)     
+{
+	$str = rtrimMy(ltrimMy($str));
+	return $str;
+}
+echo trimMy($str).'<br>';
